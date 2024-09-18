@@ -111,7 +111,6 @@ You should always test with various stress tests to ensure your overclock is sta
 * RAM frequency is measured in megahertz (MHz) or million cycles per second. Higher frequency means more cycles per second, which means better performance.
 * Esoteric note: People often refer to DDR4-3200 as being 3200 **MHz** however, in reality, the real frequency of the RAM is only 1600 MHz. As data is transferred on both the rising clock edge and falling clock edge in DDR (Double Data Rate) memory, the real frequency of the RAM is half of the number of transfers it makes per second. DDR4-3200 transfers 3200 million bits per second, and so, 3200 **MT/s** (MegaTransfers per second) is operating at a frequency of 1600 **MHz**.
 * RAM timings are measured in clock cycles or ticks. Lower timings mean fewer cycles to perform an operation, which means better performance.
-  * The exception to this is tREFI, which is the refresh interval. As its name suggests, tREFI is the time between refreshes. While the RAM is refreshing, it can't do anything, so you'd want to refresh as infrequently as possible. To do that, you'd want the time between refreshes to be as long as possible. This means you'd want tREFI as high as possible.
 * While lower timings may be better, this also depends on the RAM's frequency. For example, DDR4-3000 CL15 and DDR4-3200 CL16 have the same latency, despite DDR4-3000 running at a lower absolute CL. This is because the higher frequency offsets the increase in CL.
 * To calculate the actual time in nanoseconds (ns) of a given timing: `2000 * timing / ddr_freq`.
   * For example, CL15 at DDR4-3000 is `2000 * 15 / 3000 = 10 ns`.
@@ -126,7 +125,6 @@ You should always test with various stress tests to ensure your overclock is sta
 * RAM timings are split into 3 categories: primary, secondary, and tertiary. These are indicated by 'P', 'S', and 'T', respectively.
   * Primary and secondary timings affect latency and bandwidth.
   * Tertiary timings affect bandwidth.
-    * The exception is tREFI/tREF, which affects latency and bandwidth, though it isn't modifiable on AMD.
 
 # Expectations/Limitations
 * This section goes through 3 components that may influence your overclocking experience: ICs, motherboard, and IMC.
@@ -564,14 +562,6 @@ This seems to line up with [The Stilt's](https://www.overclock.net/forum/10-amd-
 
 8. Set `tRC = tRP + tRAS`. Increase if unstable.
    * tRC is only available on AMD and some Intel UEFIs.
-
-9. Increase tREFI until it's unstable. The binary search method for finding the lowest tRFC can also be applied here.  
-   Otherwise, here are my suggestions:
-   | Timing | Safe | Tight | Extreme |
-   | ------ | ---- | ----- | ------- |
-   | tREFI | 32768 | 40000 | Max (65535 or 65534) |
-   * It's typically not good to increase tREFI too much as ambient temperature changes (e.g., winter to summer) can be enough to cause instability.
-   * Keep in mind that running max tREFI can corrupt files, so tread with caution.
 
 10. Finally, onto command rate.
 
